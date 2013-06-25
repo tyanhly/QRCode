@@ -11,15 +11,16 @@ class QrCodeGrailsPlugin {
     ]
 
     // TODO Fill in these fields
-    def title = "Qr Code Plugin" // Headline display name of the plugin
+    def title = "QRCode Plugin" // Headline display name of the plugin
     def author = "Ly Tung"
     def authorEmail = "tyanhly@gmail.com"
     def description = '''\
-Brief summary/description of the plugin.
+The QRCode Plugin allows your Grails application create QRCode image \
+which you can put your logo to this image. 
 '''
 
     // URL to the plugin's documentation
-    def documentation = "http://grails.org/plugin/qr-code"
+    def documentation = "http://grails.org/plugin/qrcode"
 
     // Extra (optional) plugin metadata
 
