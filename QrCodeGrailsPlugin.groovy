@@ -9,7 +9,7 @@ class QrCodeGrailsPlugin {
 
     def documentation = "http://grails.org/plugin/qrcode"
 
-//    def license = "APACHE"
-//    def issueManagement = [ system: "JIRA", url: "http://jira.grails.org/browse/GPMYPLUGIN" ]
-//    def scm = [ url: "http://svn.codehaus.org/grails-plugins/" ]
+    def license = "APACHE"
+    def issueManagement = [system: 'GITHUB', url: 'https://github.com/tyanhly/QRCode/issues']
+    def scm = [url: 'https://github.com/tyanhly/QRCode']
 }
