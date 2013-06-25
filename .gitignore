@@ -1,2 +1,7 @@
 /target
+/target-eclipse
 /.settings
+/web-app
+*.zip
+plugin.xml
+*.log
