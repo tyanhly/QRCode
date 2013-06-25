@@ -5,11 +5,14 @@ Grail plugin project - Create QRCode and can put your logo to QRCode image
 
 This plugin create qrcode image by google API. And it can combine your logo to this image.
 
-== Installation
+Installation
+===
 
-== Using
+Using
+===
 
-= Information
+<b>User Information</b>
+
 <pre>
 
 Map information = [:]
@@ -31,7 +34,8 @@ def bytes = new URL("http://upload.wikimedia.org/wikipedia/commons/5/51/Google.p
         QRCodeService.createQRCodeAndLogoBase64(information, data, "/local", "google.png" )
 </pre>
 
-= Contact information
+<b>Contact information</b>
+
 <pre>
 def contactInfos = [:]
         contactInfos.put("FIRSTNAME", "Tung")
@@ -42,8 +46,8 @@ def contactInfos = [:]
         contactInfos.put("EMAIL", "tyanhly@yahoo.com")
         contactInfos.put("URL", "http://kiss-concept.com")
         contactInfos.put("BDAY", "1985/01/01")
-
-        QRCodeService.createContactQRCode(contactInfos, "http://kiss-concept.com/images/logo_kwwiss_concept.png", \
+        
+        QRCodeService.createContactQRCode(contactInfos, "http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png", \
             "/local", "qrcode2.png")
 </pre>
 
