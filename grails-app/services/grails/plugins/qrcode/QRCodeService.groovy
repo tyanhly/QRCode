@@ -22,7 +22,7 @@ class QRCodeService {
      * @return
      */
     def createQRCode(Map<String, String> information, String logoPath, String outputDir = "/tmp", String outputFileName = "QRCode.png"){
-        def tmpQrCodeImage = createQRCodeByGoogle(information, outputDir + "/" + tmpQrCodeFileName)
+        def tmpQrCodeImage = createQRCodeByGoogle(information)
         if(tmpQrCodeImage != null){
             mergeLogo(tmpQrCodeImage, logoPath, outputDir, outputFileName)
         }
@@ -36,7 +36,7 @@ class QRCodeService {
      * @return
      */
     def createContactQRCode(Map<String, String> contactInfos, String logoPath, String outputDir = "/tmp", String outputFileName = "QRCode.png"){
-        def tmpQrCodeImage = createContactQRCodeByGoogle(contactInfos, outputDir + "/" + tmpQrCodeFileName)
+        def tmpQrCodeImage = createContactQRCodeByGoogle(contactInfos)
         if(tmpQrCodeImage != null){
             mergeLogo(tmpQrCodeImage, logoPath, outputDir, outputFileName)
         }
@@ -50,7 +50,7 @@ class QRCodeService {
      * @return
      */
     def createQRCodeAndLogoBase64(Map<String, String> information, String logoBase64, String outputDir = "/tmp", String outputFileName = "QRCode.png"){
-        def tmpQrCodeImage = createQRCodeByGoogle(information, outputDir + "/" + tmpQrCodeFileName)
+        def tmpQrCodeImage = createQRCodeByGoogle(information)
         if(tmpQrCodeImage != null){
             mergeLogoBase64(tmpQrCodeImage, logoBase64, outputDir, outputFileName)
         }
@@ -64,7 +64,7 @@ class QRCodeService {
      * @return
      */
     def createContactQRCodeAndLogoBase64(Map<String, String> contactInfos, String logoBase64, String outputDir = "/tmp", String outputFileName = "QRCode.png"){
-        def tmpQrCodeImage = createContactQRCodeByGoogle(contactInfos, outputDir + "/" + tmpQrCodeFileName)
+        def tmpQrCodeImage = createContactQRCodeByGoogle(contactInfos)
         if(tmpQrCodeImage != null){
             mergeLogoBase64(tmpQrCodeImage, logoBase64, outputDir, outputFileName)
         }
@@ -79,8 +79,19 @@ class QRCodeService {
      * @param outputPath
      * @return
      */
-    def createContactQRCodeByGoogle(Map<String, String> contactInfos, String outputPath){
+    def createContactQRCodeByGoogle(Map<String, String> contactInfos){
+        Map information = convertUserInfosToCHL(contactInfos);
 
+        return createQRCodeByGoogle(information)
+    }
+
+    /**
+     * Convert contactInos to MECARD string
+     * @param contactInfos
+     * @return
+     */
+    def convertUserInfosToCHL(Map<String,String> contactInfos){
+        
         def firstname = contactInfos.containsKey("FIRSTNAME")?contactInfos.get("FIRSTNAME"): "Anonymous"
         def lastname = contactInfos.containsKey("LASTNAME")?contactInfos.get("LASTNAME"): ""
 
@@ -103,16 +114,15 @@ class QRCodeService {
             chl: "chl=" + URLEncoder.encode(contactInfo),
             chld: "chld=H|1",
             choe: "choe=UTF-8"]
-        createQRCodeByGoogle(information, outputPath)
+        return information;
     }
-
     /**
      *
      * @param information
      * @param outputPath
      * @return
      */
-    def createQRCodeByGoogle(Map<String, String> information, String outputPath){
+    def createQRCodeByGoogle(Map<String, String> information){
         if (!information.containsKey("chl")){
             throw new Exception("chl is not null - data of qrcode")
         }
@@ -130,6 +140,22 @@ class QRCodeService {
             log.error e.getMessage()
             return null
         }
+    }
+
+    /**
+     * 
+     * @param information
+     * @param logoPath
+     * @return
+     */
+    def generateQRCodeBase64(Map<String, String> information,  String logoPath){
+        BufferedImage image = createQRCodeByGoogle(information);
+        if(image){
+            BufferedImage overlay = scaleImage(getLogoImageFrom(logoPath), image.getHeight()/4)
+            def result = combineImage(image, overlay);
+            return encodeImageToBase64(result);
+        }
+        return null
     }
 
     /**
@@ -154,7 +180,7 @@ class QRCodeService {
      * @return
      */
     def mergeLogoBase64(BufferedImage image, String logoBase64, String outputDir, String outputFileName){
-        BufferedImage overlay = scaleImage(decodeToImage(logoBase64),image.getHeight()/4)
+        BufferedImage overlay = scaleImage(decodeBase64ToImage(logoBase64),image.getHeight()/4)
         combineImage(image, overlay, outputDir, outputFileName)
     }
 
@@ -164,19 +190,25 @@ class QRCodeService {
      * @param overlay
      * @return
      */
-    def combineImage(BufferedImage image, BufferedImage overlay, outputDir, outputFileName){
+    def combineImage(BufferedImage image, BufferedImage overlay, outputDir = null, outputFileName = null){
+        def doNotWriteFile = outputDir == null | outputFileName == null;
         if(overlay != null){
             BufferedImage combined = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB)
             // paint both images, preserving the alpha channels
             Graphics g = combined.getGraphics()
             g.drawImage(image, 0, 0, null)
             g.drawImage(overlay, (int) (image.getWidth()/2 - overlay.getWidth()/2), (int) (image.getHeight()/2 - overlay.getHeight()/2), null)
-
-            // Save as new image - have logo
-            ImageIO.write(combined, "png", new File(outputDir, outputFileName))
+            if(!doNotWriteFile){
+                // Save as new image - have logo
+                ImageIO.write(combined, "png", new File(outputDir, outputFileName))
+            }
+            return combined
         }else{
-            // Save image - don't have logo
-            ImageIO.write(image, "png", new File(outputDir, outputFileName))
+            if(!doNotWriteFile){
+                // Save image - don't have logo
+                ImageIO.write(image, "png", new File(outputDir, outputFileName))
+            }
+            return image
         }
     }
 
@@ -185,7 +217,26 @@ class QRCodeService {
      * @param imageString
      * @return BufferedImage
      */
-    def BufferedImage decodeToImage(String imageString) {
+    def String encodeImageToBase64(BufferedImage img) {
+        try {
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write( img, "png", baos );
+            baos.flush();
+            byte[] imageInByte = baos.toByteArray();
+            return imageInByte.encodeBase64();
+        } catch (Exception e) {
+            log.error e.getMessage(), e
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @param imageString
+     * @return BufferedImage
+     */
+    def BufferedImage decodeBase64ToImage(String imageString) {
 
         BufferedImage image
         try {
@@ -194,7 +245,9 @@ class QRCodeService {
             image = ImageIO.read(bis)
             bis.close()
         } catch (Exception e) {
-            log.error e.getMessage(), e
+
+            println "Decode Image String to BufferedImage, String: " + imageString
+            log.error e.getMessage()
         }
         return image
     }
@@ -216,12 +269,14 @@ class QRCodeService {
                 img = ImageIO.read(new File(imagePath))
             }
         } catch (Exception e) {
+            println "GET IMAGE FROM URL. URL: " + imagePath
             log.error e.getMessage()
             return null
         }
         return img
     }
 
+    
     /**
      * Scale image - using for scaling logo
      * @param imagePath
