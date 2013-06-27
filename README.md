@@ -15,7 +15,7 @@ Using
 
 <pre>
 
-HashMap information = new HashMap<String, String>();
+Map information = [:]
         def contactInfo = "MECARD:N:Tung,Ly;ADR:76 9th Avenue, 4th Floor, New York, NY 10011;"\
                         + "TEL:+84906667100;EMAIL:tyanhly@example.com;;"
         information.put("chs", "chs=250x250")
@@ -30,22 +30,22 @@ or
 
 <pre>
 def bytes = new URL("http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png").getBytes()
-        def data = bytes.encodeBase64().toString();
+        def data = bytes.encodeBase64().toString()
         QRCodeService.createQRCodeAndLogoBase64(information, data, "/local", "google.png" )
 </pre>
 
 <b>Contact information</b>
 
 <pre>
-def contactInfos = new HashMap<String, String>();
-        contactInfos.put("FIRSTNAME", "Tung");
-        contactInfos.put("LASTNAME", "Ly");
-        contactInfos.put("ADR", "124 Cao Xuan Duc P12 Q8 HCM");
-        contactInfos.put("TEL", "0906667100");
-        contactInfos.put("TEL-AV", "+84906667100");
-        contactInfos.put("EMAIL", "tyanhly@yahoo.com");
-        contactInfos.put("URL", "http://kiss-concept.com");
-        contactInfos.put("BDAY", "1985/01/01");
+def contactInfos = [:]
+        contactInfos.put("FIRSTNAME", "Tung")
+        contactInfos.put("LASTNAME", "Ly")
+        contactInfos.put("ADR", "124 Cao Xuan Duc P12 Q8 HCM")
+        contactInfos.put("TEL", "0906667100")
+        contactInfos.put("TEL-AV", "+84906667100")
+        contactInfos.put("EMAIL", "tyanhly@yahoo.com")
+        contactInfos.put("URL", "http://kiss-concept.com")
+        contactInfos.put("BDAY", "1985/01/01")
         
         QRCodeService.createContactQRCode(contactInfos, "http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png", \
             "/local", "qrcode2.png")
@@ -55,8 +55,8 @@ or
 
 <pre>
 def abytes = new URL("http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png").getBytes()
-        def adata = abytes.encodeBase64().toString();
-        
+        def adata = abytes.encodeBase64().toString()
+
         QRCodeService.createContactQRCodeAndLogoBase64(contactInfos, dataa, "/local", "ibm.png" )
 </pre>
 
