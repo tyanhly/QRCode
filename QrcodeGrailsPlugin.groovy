@@ -1,4 +1,4 @@
-class QrCodeGrailsPlugin {
+class QrcodeGrailsPlugin {
     def version = "0.1"
     def grailsVersion = "2.0 > *"
 
@@ -13,3 +13,4 @@ class QrCodeGrailsPlugin {
     def issueManagement = [system: 'GITHUB', url: 'https://github.com/tyanhly/QRCode/issues']
     def scm = [url: 'https://github.com/tyanhly/QRCode']
 }
+
