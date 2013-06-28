@@ -91,6 +91,13 @@ def abytes = new URL("http://upload.wikimedia.org/wikipedia/commons/5/51/Google.
 &lt;qrcode:contact contactInfos=&quot;${contactInfos}&quot; /&gt;
 &lt;qrcode:contact contactInfos=&quot;${contactInfos}&quot; 
     logoLink=&quot;http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png&quot;/&gt;
+
+&lt;qrcode:contact contactInfos=&quot;${contactInfos}&quot; 
+    logoLink=&quot;~/Pictures/Google.png&quot;/&gt;
+    
+&lt;qrcode:contact contactInfos=&quot;${contactInfos}&quot; 
+    logoBase64=&quot;AzdDBkkd...&quot;/&gt;
+    
 </code>
 </pre>
 
