@@ -18,7 +18,7 @@ The plugin support both of service and taglib.
    + You can write down you disk
    + You can get BufferedImage
    + You also can get Base64 string as well
-- About logo image, It also support system path, URL or Base64 String as well.,
+- About logo image, It also support system path, URL or Base64 String as well,
 
 #Installation
 compile ":qr-code:0.1"
