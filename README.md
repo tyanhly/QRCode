@@ -3,10 +3,28 @@ QRCode
 
 Grail plugin project - Create QRCode and can put your logo to QRCode image
 
-This plugin create qrcode image by google API. And it can combine your logo to this image.
+The plugin support both of service and taglib. 
+
+About function:
+
+- Create qrcode for a text
+- Create qrcode for a contact - MECARD (Please see: http://www.nttdocomo.co.jp/english/service/developer/make/content/barcode/function/application/addressbook/index.html)
+- Create qrcode follow google api (Please see: https://developers.google.com/chart/infographics/docs/qr_codes)
+
+* And In each case you can put your logo in this qrcode image by link or by base64 string or object
+
+About technique:
+
+- You can use service for customize you business functions. It supported you generate qrcode image for many types that you can do. etc.
+   + You can write down you disk
+   + You can get BufferedImage
+   + You also can get Base64 string as well
+- About logo image, It also support system path, URL or Base64 String as well.,
+
 
 Installation
 ===
+compile ":qr-code:0.1"
 
 Using
 ===
@@ -33,7 +51,6 @@ def bytes = new URL("http://upload.wikimedia.org/wikipedia/commons/5/51/Google.p
         def data = bytes.encodeBase64().toString()
         QRCodeService.createQRCodeAndLogoBase64(information, data, "/local", "google.png" )
 </pre>
-
 <b>Contact information</b>
 
 <pre>
@@ -59,4 +76,24 @@ def abytes = new URL("http://upload.wikimedia.org/wikipedia/commons/5/51/Google.
 
         QRCodeService.createContactQRCodeAndLogoBase64(contactInfos, dataa, "/local", "ibm.png" )
 </pre>
+
+<b>TagLib using</b>
+<pre>
+
+<qrcode:text>Hello QRCode Plugin for Grails</qrcode:text>
+<qrcode:text
+   logoLink="http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png">
+   Hello QRCode Plugin for Grails
+</qrcode:text>
+
+<qrcode:google information="${information}" />
+<qrcode:google information="${information}"
+    logoLink="http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png" />
+
+<qrcode:contact contactInfos="${contactInfos}" />
+<qrcode:contact contactInfos="${contactInfos}" 
+    logoLink="http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png"/>
+
+</pre>
+
 
