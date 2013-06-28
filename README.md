@@ -79,21 +79,21 @@ def abytes = new URL("http://upload.wikimedia.org/wikipedia/commons/5/51/Google.
 
 <b>TagLib using</b>
 <pre>
-
-<qrcode:text>Hello QRCode Plugin for Grails</qrcode:text>
-<qrcode:text
-   logoLink="http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png">
+<code>
+&lt;qrcode:text&gt;Hello QRCode Plugin for Grails&lt;/qrcode:text&gt;
+&lt;qrcode:text
+   logoLink=&quot;http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png&quot;&gt;
    Hello QRCode Plugin for Grails
-</qrcode:text>
+&lt;/qrcode:text&gt;
 
-<qrcode:google information="${information}" />
-<qrcode:google information="${information}"
-    logoLink="http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png" />
+&lt;qrcode:google information=&quot;${information}&quot; /&gt;
+&lt;qrcode:google information=&quot;${information}&quot;
+    logoLink=&quot;http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png&quot; /&gt;
 
-<qrcode:contact contactInfos="${contactInfos}" />
-<qrcode:contact contactInfos="${contactInfos}" 
-    logoLink="http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png"/>
-
+&lt;qrcode:contact contactInfos=&quot;${contactInfos}&quot; /&gt;
+&lt;qrcode:contact contactInfos=&quot;${contactInfos}&quot; 
+    logoLink=&quot;http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png&quot;/&gt;
+</code>
 </pre>
 
 
