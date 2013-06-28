@@ -7,7 +7,7 @@ class QrCodeGrailsPlugin {
     def authorEmail = "tyanhly@gmail.com"
     def description = 'Allows your Grails application to create QRCode image which you can put your logo to this image'
 
-    def documentation = "http://grails.org/plugin/qrcode"
+    def documentation = "http://grails.org/plugin/qr-code"
 
     def license = "APACHE"
     def issueManagement = [system: 'GITHUB', url: 'https://github.com/tyanhly/QRCode/issues']
