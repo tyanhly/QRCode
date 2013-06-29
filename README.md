@@ -71,8 +71,7 @@ or
 <pre>
 def bytes = new URL("http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png").getBytes()
 def data = bytes.encodeBase64().toString()
-
-        QRCodeService.createContactQRCodeAndLogoBase64(contactInfos, data, "/local", "ibm.png" )
+QRCodeService.createContactQRCodeAndLogoBase64(contactInfos, data, "/local", "ibm.png" )
 </pre>
 
 ##TagLib using
