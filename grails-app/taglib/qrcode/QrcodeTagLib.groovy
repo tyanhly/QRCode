@@ -11,7 +11,7 @@ class QrcodeTagLib {
      */
     def google = { attrs ->
         if(attrs.information){
-            def base64Image = QRCodeService.generateQRCodeBase64(attrs.information,attrs?.logoLink)
+            def base64Image = QRCodeService.generateQRCodeBase64(attrs.information,attrs?.logoLink, attrs?.logoBase64)
             if(base64Image){
                 out << "<img src='data:image/png;base64," + base64Image + "' />"
             }else{
@@ -30,7 +30,7 @@ class QrcodeTagLib {
      */
     def contact = { attrs ->
         if(attrs.contactInfos){
-            def base64Image = QRCodeService.generateQRCodeBase64(QRCodeService.convertUserInfosToCHL(attrs.contactInfos),attrs?.logoLink)
+            def base64Image = QRCodeService.generateQRCodeBase64(QRCodeService.convertContactInfosToGoogleInformation(attrs.contactInfos),attrs?.logoLink, attrs?.logoBase64)
             if(base64Image){
                 out << "<img src='data:image/png;base64," + base64Image + "' />"
             }else{
@@ -50,7 +50,7 @@ class QrcodeTagLib {
         if(body()){
             Map<String, String> information = [chl: "chl=" + URLEncoder.encode(body().trim())];
 //            Map<String, String> information = [chl: "chl=sdfsdfsdfsdf"];
-            def base64Image = QRCodeService.generateQRCodeBase64(information, ,attrs?.logoLink)
+            def base64Image = QRCodeService.generateQRCodeBase64(information, ,attrs?.logoLink, attrs?.logoBase64)
             if(base64Image){
                 out << "<img src='data:image/png;base64," + base64Image + "' />"
             }else{

@@ -3,9 +3,7 @@ package grails.plugins.qrcode
 import java.awt.Graphics
 import java.awt.RenderingHints
 import java.awt.image.BufferedImage
-
 import javax.imageio.ImageIO
-
 import org.apache.commons.validator.UrlValidator
 
 class QRCodeService {
@@ -80,7 +78,7 @@ class QRCodeService {
      * @return
      */
     def createContactQRCodeByGoogle(Map<String, String> contactInfos){
-        Map information = convertUserInfosToCHL(contactInfos);
+        Map information = convertContactInfosToGoogleInformation(contactInfos);
 
         return createQRCodeByGoogle(information)
     }
@@ -90,7 +88,7 @@ class QRCodeService {
      * @param contactInfos
      * @return
      */
-    def convertUserInfosToCHL(Map<String,String> contactInfos){
+    def convertContactInfosToGoogleInformation(Map<String,String> contactInfos){
         
         def firstname = contactInfos.containsKey("FIRSTNAME")?contactInfos.get("FIRSTNAME"): "Anonymous"
         def lastname = contactInfos.containsKey("LASTNAME")?contactInfos.get("LASTNAME"): ""
@@ -109,30 +107,30 @@ class QRCodeService {
         contactInfo += ";"
 
         Map information = [
-            chs: "chs=250x250",
-            cht: "cht=qr",
-            chl: "chl=" + URLEncoder.encode(contactInfo),
-            chld: "chld=H|1",
-            choe: "choe=UTF-8"]
+            chs: "250x250",
+            cht: "qr",
+            chl: contactInfo,
+            chld: "H|1",
+            choe: "UTF-8"]
         return information;
     }
     /**
-     *
+     * Create QRCode by Google API
      * @param information
      * @param outputPath
      * @return
      */
     def createQRCodeByGoogle(Map<String, String> information){
         if (!information.containsKey("chl")){
-            throw new Exception("chl is not null - data of qrcode")
+            log.error "chl is not null - data of qrcode"
         }
 
         String url = "https://chart.googleapis.com/chart?"
-        url += information.containsKey("cht")?information.get("cht") + "&" : "cht=qr&"
-        url += information.containsKey("chs")?information.get("chs") + "&" : "chs=250x250&"
-        url += information.containsKey("choe")?information.get("choe") + "&" : "choe=UTF-8&"
-        url += information.containsKey("chld")?information.get("chld") + "&" : "chld=H|1&"
-        url += information.get("chl")
+        url += information.containsKey("cht")?"cht=" + information.get("cht") + "&" : "cht=qr&"
+        url += information.containsKey("chs")?"chs=" + information.get("chs") + "&" : "chs=250x250&"
+        url += information.containsKey("choe")?"choe=" + information.get("choe") + "&" : "choe=UTF-8&"
+        url += information.containsKey("chld")?"chld=" + information.get("chld") + "&" : "chld=H|1&"
+        url += "chl=" + URLEncoder.encode(information.get("chl"))
 
         try {
             return ImageIO.read(new URL(url))
@@ -148,15 +146,20 @@ class QRCodeService {
      * @param logoPath
      * @return
      */
-    def generateQRCodeBase64(Map<String, String> information,  String logoPath){
+    def generateQRCodeBase64(Map<String, String> information,  String logoPath, String logoBase64){
         BufferedImage image = createQRCodeByGoogle(information);
         if(image){
-            BufferedImage overlay = scaleImage(getLogoImageFrom(logoPath), image.getHeight()/4)
+            
+            def logoImage = getLogoImageFrom(logoPath)
+            logoImage = logoImage?logoImage:decodeBase64ToImage(logoBase64)            
+            
+            BufferedImage overlay = scaleImage(logoImage, image.getHeight()/4)
             def result = combineImage(image, overlay);
             return encodeImageToBase64(result);
         }
         return null
     }
+	
 
     /**
      * Merge logo and QRCode Image.
@@ -258,20 +261,22 @@ class QRCodeService {
      * @return BufferedImage
      */
     def BufferedImage getLogoImageFrom(String imagePath){
+        BufferedImage img = null
 
-        BufferedImage img
-
-        UrlValidator urlValidator = new UrlValidator()
-        try {
-            if (urlValidator.isValid(imagePath)) {
-                img = ImageIO.read(new URL(imagePath))
-            }else{
-                img = ImageIO.read(new File(imagePath))
-            }
-        } catch (Exception e) {
-            println "GET IMAGE FROM URL. URL: " + imagePath
-            log.error e.getMessage()
-            return null
+        if(imagePath){
+            
+            UrlValidator urlValidator = new UrlValidator()
+            try {
+                if (urlValidator.isValid(imagePath)) {
+                    img = ImageIO.read(new URL(imagePath))
+                }else{
+                    img = ImageIO.read(new File(imagePath))
+                }
+            } catch (Exception e) {
+                println "GET IMAGE FROM URL. URL: " + imagePath
+                log.error e.getMessage()
+                return null
+        }
         }
         return img
     }
