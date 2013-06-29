@@ -21,8 +21,9 @@ The plugin support both of service and taglib.
 - About logo image, It also support system path, URL or Base64 String as well,
 
 #Installation
-compile ":qr-code:0.1.2"
-
+<pre>
+grails install-plugin qr-code
+</pre>
 #Using
 
 ##User Information
