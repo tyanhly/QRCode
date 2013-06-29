@@ -32,11 +32,11 @@ compile ":qr-code:0.1.1"
 Map information = [:]
 def contactInfo = "MECARD:N:Tung,Ly;ADR:76 9th Avenue, 4th Floor, New York, NY 10011;"\
                 + "TEL:+84906667100;EMAIL:tyanhly@example.com;;"
-information.put("chs", "chs=250x250")
-information.put("cht", "cht=qr")
-information.put("chl", "chl=" + URLEncoder.encode(contactInfo))
-information.put("chld", "chld=H|1")
-information.put("choe", "choe=UTF-8")
+information.put("chs", "250x250")
+information.put("cht", "qr")
+information.put("chl", contactInfo)
+information.put("chld", "H|1")
+information.put("choe", "UTF-8")
 QRCodeService.createQRCode(information, "/local/logo.jpg", "/local", "qrcode.png")
 </pre>
 
