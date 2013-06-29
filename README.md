@@ -15,7 +15,7 @@ The plugin support both of service and taglib.
 #About technique:
 
 - You can use service for customize you business functions. It supported you generate qrcode image for many types that you can do. etc.
-   + You can write down you disk
+   + You can write down your disk
    + You can get BufferedImage
    + You also can get Base64 string as well
 - About logo image, It also support system path, URL or Base64 String as well,
@@ -69,10 +69,10 @@ QRCodeService.createContactQRCode(contactInfos, \
 or
 
 <pre>
-def abytes = new URL("http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png").getBytes()
-        def adata = abytes.encodeBase64().toString()
+def bytes = new URL("http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png").getBytes()
+def data = bytes.encodeBase64().toString()
 
-        QRCodeService.createContactQRCodeAndLogoBase64(contactInfos, dataa, "/local", "ibm.png" )
+        QRCodeService.createContactQRCodeAndLogoBase64(contactInfos, data, "/local", "ibm.png" )
 </pre>
 
 ##TagLib using
@@ -80,23 +80,19 @@ def abytes = new URL("http://upload.wikimedia.org/wikipedia/commons/5/51/Google.
 <code>
 &lt;qrcode:text&gt;Hello QRCode Plugin for Grails&lt;/qrcode:text&gt;
 &lt;qrcode:text
-   logoLink=&quot;http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png&quot;&gt;
+   logoLink=&quot;http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png&quot;&gt; 
    Hello QRCode Plugin for Grails
 &lt;/qrcode:text&gt;
 
 &lt;qrcode:google information=&quot;${information}&quot; /&gt;
-&lt;qrcode:google information=&quot;${information}&quot;
-    logoLink=&quot;http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png&quot; /&gt;
+&lt;qrcode:google information=&quot;${information}&quot; logoLink=&quot;http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png&quot; /&gt;
 
 &lt;qrcode:contact contactInfos=&quot;${contactInfos}&quot; /&gt;
-&lt;qrcode:contact contactInfos=&quot;${contactInfos}&quot; 
-    logoLink=&quot;http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png&quot;/&gt;
+&lt;qrcode:contact contactInfos=&quot;${contactInfos}&quot; logoLink=&quot;http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png&quot;/&gt;
 
-&lt;qrcode:contact contactInfos=&quot;${contactInfos}&quot; 
-    logoLink=&quot;~/Pictures/Google.png&quot;/&gt;
+&lt;qrcode:contact contactInfos=&quot;${contactInfos}&quot; logoLink=&quot;~/Pictures/Google.png&quot;/&gt;
     
-&lt;qrcode:contact contactInfos=&quot;${contactInfos}&quot; 
-    logoBase64=&quot;/9j/4AAQSk...SyCNxA6BP/9k=&quot;/&gt;
+&lt;qrcode:contact contactInfos=&quot;${contactInfos}&quot; logoBase64=&quot;/9j/4AAQSk...SyCNxA6BP/9k=&quot;/&gt;
     
 </code>
 </pre>
