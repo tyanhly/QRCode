@@ -83,6 +83,10 @@ QRCodeService.createContactQRCodeAndLogoBase64(contactInfos, data, "/local", "ib
    logoLink=&quot;http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png&quot;&gt; 
    Hello QRCode Plugin for Grails
 &lt;/qrcode:text&gt;
+&lt;qrcode:text
+   logoLink=&quot;http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png&quot;&gt; 
+   http://google.com
+&lt;/qrcode:text&gt;
 
 &lt;qrcode:google information=&quot;${information}&quot; /&gt;
 &lt;qrcode:google information=&quot;${information}&quot; logoLink=&quot;http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png&quot; /&gt;
