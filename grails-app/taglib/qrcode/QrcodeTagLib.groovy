@@ -48,8 +48,7 @@ class QrcodeTagLib {
      */
     def text = { attrs, body ->
         if(body()){
-            Map<String, String> information = [chl: "chl=" + URLEncoder.encode(body().trim())];
-//            Map<String, String> information = [chl: "chl=sdfsdfsdfsdf"];
+            Map<String, String> information = [chl: body().trim()];
             def base64Image = QRCodeService.generateQRCodeBase64(information, ,attrs?.logoLink, attrs?.logoBase64)
             if(base64Image){
                 out << "<img src='data:image/png;base64," + base64Image + "' />"
