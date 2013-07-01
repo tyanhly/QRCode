@@ -14,7 +14,7 @@ The plugin support both of service and taglib.
 
 #About technique:
 
-- You can use service for customize you business functions. It supported you generate qrcode image for many types that you can do. etc.
+- You can use service for customize your business functions. It supported you generate qrcode image for many types that you wanna do, etc:
    + You can write down your disk
    + You can get BufferedImage
    + You also can get Base64 string as well
