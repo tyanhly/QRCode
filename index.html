@@ -31,37 +31,117 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+      <article class="markdown-body entry-content" itemprop="mainContentOfPage"><h1>
+<a name="qrcode" class="anchor" href="#qrcode"><span class="octicon octicon-link"></span></a>QRCode</h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>Grail plugin project - Create QRCode and can put your logo to QRCode image</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+<p>The plugin support both of service and taglib. </p>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<h1>
+<a name="about-function" class="anchor" href="#about-function"><span class="octicon octicon-link"></span></a>About function:</h1>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<ul>
+<li>Create qrcode for a text</li>
+<li>Create qrcode for a contact - MECARD (Please see: <a href="http://www.nttdocomo.co.jp/english/service/developer/make/content/barcode/function/application/addressbook/index.html">http://www.nttdocomo.co.jp/english/service/developer/make/content/barcode/function/application/addressbook/index.html</a>)</li>
+<li><p>Create qrcode follow google api (Please see: <a href="https://developers.google.com/chart/infographics/docs/qr_codes">https://developers.google.com/chart/infographics/docs/qr_codes</a>)</p></li>
+<li><p>And In each case you can put your logo in this qrcode image by link or by base64 string or object</p></li>
+</ul><h1>
+<a name="about-technique" class="anchor" href="#about-technique"><span class="octicon octicon-link"></span></a>About technique:</h1>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<ul>
+<li>You can use service for customize your business functions. It supported you generate qrcode image for many types that you wanna do, etc:
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<ul>
+<li>You can write down your disk</li>
+<li>You can get BufferedImage</li>
+<li>You also can get Base64 string as well</li>
+</ul>
+</li>
+<li>About logo image, It also support system path, URL or Base64 String as well,</li>
+</ul><h1>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h1>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<pre>grails install-plugin qr-code
+</pre>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<h1>
+<a name="using" class="anchor" href="#using"><span class="octicon octicon-link"></span></a>Using</h1>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<h2>
+<a name="user-information" class="anchor" href="#user-information"><span class="octicon octicon-link"></span></a>User Information</h2>
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<pre>
+Map information = [:]
+def contactInfo = "MECARD:N:Tung,Ly;ADR:76 9th Avenue, 4th Floor, New York, NY 10011;"\
+                + "TEL:+84906667100;EMAIL:tyanhly@example.com;;"
+information.put("chs", "250x250")
+information.put("cht", "qr")
+information.put("chl", contactInfo)
+information.put("chld", "H|1")
+information.put("choe", "UTF-8")
+QRCodeService.createQRCode(information, "/local/logo.jpg", "/local", "qrcode.png")
+</pre>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<p>or</p>
+
+<pre>def bytes = new URL("http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png").getBytes()
+def data = bytes.encodeBase64().toString()
+QRCodeService.createQRCodeAndLogoBase64(information, data, "/local", "google.png" )
+</pre>
+
+<h2>
+<a name="contact-information" class="anchor" href="#contact-information"><span class="octicon octicon-link"></span></a>Contact information</h2>
+
+<pre>def contactInfos = [:]
+contactInfos.put("FIRSTNAME", "Tung")
+contactInfos.put("LASTNAME", "Ly")
+contactInfos.put("ADR", "124 Cao Xuan Duc P12 Q8 HCM")
+contactInfos.put("TEL", "0906667100")
+contactInfos.put("TEL-AV", "+84906667100")
+contactInfos.put("EMAIL", "tyanhly@yahoo.com")
+contactInfos.put("URL", "http://kiss-concept.com")
+contactInfos.put("BDAY", "1985/01/01")
+
+QRCodeService.createContactQRCode(contactInfos, \
+    "http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png", \
+    "/local", "qrcode2.png")
+</pre>
+
+<p>or</p>
+
+<pre>def bytes = new URL("http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png").getBytes()
+def data = bytes.encodeBase64().toString()
+QRCodeService.createContactQRCodeAndLogoBase64(contactInfos, data, "/local", "ibm.png" )
+</pre>
+
+<h2>
+<a name="taglib-using" class="anchor" href="#taglib-using"><span class="octicon octicon-link"></span></a>TagLib using</h2>
+
+<pre><code>
+&lt;qrcode:text&gt;Hello QRCode Plugin for Grails&lt;/qrcode:text&gt;
+&lt;qrcode:text
+   logoLink="http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png"&gt; 
+   Hello QRCode Plugin for Grails
+&lt;/qrcode:text&gt;
+&lt;qrcode:text
+   logoLink="http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png"&gt; 
+   http://google.com
+&lt;/qrcode:text&gt;
+
+&lt;qrcode:google information="${information}" /&gt;
+&lt;qrcode:google information="${information}" logoLink="http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png" /&gt;
+
+&lt;qrcode:contact contactInfos="${contactInfos}" /&gt;
+&lt;qrcode:contact contactInfos="${contactInfos}" logoLink="http://upload.wikimedia.org/wikipedia/commons/5/51/Google.png"/&gt;
+
+&lt;qrcode:contact contactInfos="${contactInfos}" logoLink="~/Pictures/Google.png"/&gt;
+    
+&lt;qrcode:contact contactInfos="${contactInfos}" logoBase64="/9j/4AAQSk...SyCNxA6BP/9k="/&gt;
+    
+</code>
+</pre></article> 
+        
       </section>
     </div>
 
